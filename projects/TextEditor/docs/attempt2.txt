@@ -4,11 +4,10 @@
 #include "panel.h"
 #include "curspriv.h"
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(void)
 {
 	WINDOW* main_window = nullptr;
 	int num_cols = 0;
@@ -38,8 +37,6 @@ int main(int argc, char* argv[])
 
 	//MAIN PROGRAM LOGIC GOES HERE
 
-	// ****** BORDER ******
-
 	for (int i = 0; i < num_cols; i++)
 	{
 		//top row
@@ -61,9 +58,6 @@ int main(int argc, char* argv[])
 	//refresh tells curses to draw everything
 	refresh();
 
-	//******** STATUS BAR *********
-
-
 
 	// ****** HEADER ********
 /*
@@ -73,12 +67,12 @@ int main(int argc, char* argv[])
 	cbreak();
 */
 
-//getting screen size for small window
+	//getting screen size for small window
 	int yMax, xMax;
 	getmaxyx(stdscr, yMax, xMax);
 
 	//creating smaller window for input/menu
-	WINDOW* small_window = newwin(8, xMax - 10, yMax - 10, 7);
+	WINDOW* small_window = newwin(8, xMax - 12, yMax - 10, 7); // change to horizontal instead of vertical; check sizing
 	box(small_window, 0, 0);
 	refresh();
 	wrefresh(small_window);
@@ -86,33 +80,34 @@ int main(int argc, char* argv[])
 	//using arrow keys
 	keypad(small_window, true);
 
-	string menu[2] = { "FILE", "EXIT" };
-	//string menu[5] = { "FILE", "EDIT", "OPTIONS", "HELP", "EXIT" };
+	string menu[5] = { "FILE", "EDIT", "OPTIONS", "HELP", "EXIT" };
 	int choice;
 	int highlight = 0;
 
 	while (1)
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			if (i == highlight)
 				wattron(small_window, A_REVERSE);
-			mvwprintw(small_window, 1, i + 5, menu[i].c_str()); // change the spacing
+			mvwprintw(small_window, i + 1, 1, menu[i].c_str()); //vertical alignment
 			wattroff(small_window, A_REVERSE);
 		}
 		choice = wgetch(small_window);
 
 		switch (choice)
 		{
-		case KEY_LEFT:
+			//modify to KEY_LEFT or KEY_RIGHT 
+			//when changes are made to horizontal
+		case KEY_UP: 
 			highlight--;
 			if (highlight == -1)
 				highlight = 0;
 			break;
-		case KEY_RIGHT:
+		case KEY_DOWN:
 			highlight++;
-			if (highlight == 2)//5
-				highlight = 1;//4
+			if (highlight == 5)
+				highlight = 4;
 			break;
 		default:
 			break;
