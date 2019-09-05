@@ -3,6 +3,9 @@
 #include "curses.h"
 #include "panel.h"
 #include "curspriv.h"
+#include <string>
+
+using namespace std;
 
 int main(void)
 {
@@ -23,6 +26,8 @@ int main(void)
 
 	//turn keyboard echo
 	noecho();
+
+	cbreak();
 
 	//turn on keypad input
 	keypad(main_window, TRUE);
@@ -50,26 +55,68 @@ int main(void)
 		mvaddch(i, num_cols - 1, ACS_BLOCK);
 	}
 
-	//trying to add on header?
-	mvaddstr(0, 3, "FILE");
-	mvaddstr(0, 10, "EDIT");
-	mvaddstr(0, 17, "OPTIONS");
-	mvaddstr(0, 27, "HELP");
-	mvaddstr(0, 34, "EXIT");
-
 	//refresh tells curses to draw everything
 	refresh();
 
-	/*
-	//add character to the screen
-	mvaddch(10,10,'X');
-	*/
 
-	//END OF PROGRAM LOGIC GOES HERE
+	// ****** HEADER ********
+/*
+	//intizializing the window
+	initscr();
+	noecho();
+	cbreak();
+*/
 
-	//pause for user input
-	char input = getch();
+	//getting screen size for small window
+	int yMax, xMax;
+	getmaxyx(stdscr, yMax, xMax);
 
-	//end curses mode
+	//creating smaller window for input/menu
+	WINDOW* small_window = newwin(8, xMax - 12, yMax - 20, 7);
+	box(small_window, 0, 0);
+	refresh();
+	wrefresh(small_window);
+
+	//using arrow keys
+	keypad(small_window, true);
+
+	string menu[5] = { "FILE", "EDIT", "OPTIONS", "HELP", "EXIT" };
+	int choice;
+	int highlight = 0;
+
+	while (1)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (i == highlight)
+				wattron(small_window, A_REVERSE);
+			mvwprintw(small_window, i + 1, 1, menu[i].c_str());
+			wattroff(small_window, A_REVERSE);
+		}
+		choice = wgetch(small_window);
+
+		switch (choice)
+		{
+		case KEY_UP:
+			highlight--;
+			if (highlight == -1)
+				highlight = 0;
+			break;
+		case KEY_DOWN:
+			highlight++;
+			if (highlight == 5)
+				highlight = 4;
+			break;
+		default:
+			break;
+		}
+		if (choice == 10)
+			break;
+	}
+
+	printw("Your choice was: %s", menu[highlight].c_str());
+
+	//END OF PROGRAM
+	getch();
 	endwin();
 }
