@@ -1,0 +1,10 @@
+hello world.
+this terminal works like the one from vmin however, 
+the backspace doesn't work as you would think (it gives too many spaces)
+and you have to use the up, down, left and right
+arrows in order to navigate this text editor. 
+the delete button works but needs a bit more work.
+the insert button on the physical computer is not working yet since it inserts a capital K.
+to save file ,Esc key to go into 'Normal mode'. (that's the initial screen)
+to exit , first go to 'normal mode' and then press 'x'. the status will let you know what mode 
+you are in.
