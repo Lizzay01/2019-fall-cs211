@@ -123,18 +123,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="keyInputs.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="textBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
     <ClInclude Include="curspriv.h" />
+    <ClInclude Include="keyInputs.h" />
     <ClInclude Include="panel.h" />
+    <ClInclude Include="textBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="pdcurses.dll" />
+    <None Include="pdcurses.exp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="pdcurses.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="FirstNames.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

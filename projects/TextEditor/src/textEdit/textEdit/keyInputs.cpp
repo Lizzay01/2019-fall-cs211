@@ -31,7 +31,7 @@ keyInputs::keyInputs(string fn)
 	ifstream infile(fn.c_str());
 	if (infile.is_open())
 	{
-		while (!infile.good())
+		while (infile.good()) // took off !
 		{
 			string temp;
 			getline(infile, temp);
@@ -41,7 +41,7 @@ keyInputs::keyInputs(string fn)
 	else
 	{
 		cout << "Cannot open: " << fn << "'\n";
-		buffer->appendLine("");
+		buffer->appendLine("");  // has items but is not displaying  right
 	}
 }
 
@@ -244,6 +244,11 @@ void keyInputs::printStatusLine()
 	mvprintw(LINES - 1, 0, status.c_str());
 	clrtoeol();
 	attroff(A_REVERSE);
+
+	// manipulate in order to display the file
+	//f.open(filename);
+
+
 }
 
 void keyInputs::deleteLine()
